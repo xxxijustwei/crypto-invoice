@@ -1,58 +1,51 @@
+"use client";
+
 import InvoiceComponent from "@/components/invoice/template";
 import type { Invoice } from "@/components/invoice/types";
-import {
-  randAddress,
-  randBic,
-  randCompanyName,
-  randCountry,
-  randNumber,
-  randParagraph,
-  randProductName,
-  randRecentDate,
-  randUuid,
-} from "@ngneat/falso";
-
-const mockAddress = () => {
-  const address = randAddress();
-  return {
-    company: randCompanyName(),
-    country: address.country ?? randCountry(),
-    address: `${address.street}, ${address.city}, ${address.country}`,
-  };
-};
-
-const mockInvoice: Invoice = {
-  id: randUuid(),
-  status: "Paid",
-  num: randNumber({ min: 100, max: 999 }),
-  createdAt: randRecentDate().toISOString(),
-  payTo: mockAddress(),
-  invoicedTo: mockAddress(),
-  items: Array.from({ length: randNumber({ min: 1, max: 5 }) }, () => ({
-    name: randProductName(),
-    detail: randParagraph(),
-    qty: randNumber({ min: 1, max: 10 }),
-    amount: randNumber({ min: 200, max: 1000 }),
-  })),
-  discount: {
-    code: randBic(),
-    amount: -randNumber({ min: 1, max: 100 }),
-  },
-  transaction: {
-    networkName: "Ethereum",
-    tokenName: "USDT",
-    txHash:
-      "0x88521cc890ec93853f55f2985cbd5e66b62f51a17b4e1dff1e13dbb08fd7fbb6",
-    amount: 15.82,
-    date: randRecentDate().toISOString(),
-  },
-};
+import { Button } from "@/components/wed/button";
+import { getMockInvoice } from "@/lib/mock";
+import { useCallback, useEffect, useState } from "react";
 
 const Page = () => {
+  const [invoice, setInvoice] = useState<Invoice>();
+
+  const handleDownload = useCallback(async () => {
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      body: JSON.stringify(invoice),
+    });
+
+    if (!response.ok) {
+      alert("Failed to download invoice");
+      return;
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "invoice.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [invoice]);
+
+  useEffect(() => {
+    setInvoice(getMockInvoice());
+  }, []);
+
+  if (!invoice) {
+    return <></>;
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="absolute top-4 right-4">
+        <Button variant="outline" onClick={handleDownload}>
+          Download
+        </Button>
+      </div>
       <main>
-        <InvoiceComponent invoice={mockInvoice} />
+        <InvoiceComponent invoice={invoice} />
       </main>
     </div>
   );

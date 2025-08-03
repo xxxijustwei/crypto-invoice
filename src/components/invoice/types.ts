@@ -28,4 +28,6 @@ export interface Invoice {
     amount: number;
     date: string;
   };
+  subtotal: number;
+  total: number;
 }

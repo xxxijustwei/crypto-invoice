@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import type React from "react";
-import { useMemo } from "react";
 import type { Invoice } from "./types";
 
 interface InvoiceComponentProps {
@@ -10,22 +9,8 @@ interface InvoiceComponentProps {
 const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
   const invoiceData = invoice;
 
-  const subtotal = useMemo(
-    () =>
-      invoiceData.items.reduce((sum, item) => sum + item.amount * item.qty, 0),
-    [invoiceData.items],
-  );
-  const discountAmount = useMemo(
-    () => invoiceData.discount.amount,
-    [invoiceData.discount.amount],
-  );
-  const total = useMemo(
-    () => subtotal + discountAmount,
-    [subtotal, discountAmount],
-  );
-
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white">
+    <div className="max-w-3xl mx-auto p-8 bg-white">
       {/* Header */}
       <div className="flex justify-end items-start mb-12">
         <div className="flex flex-col gap-2 text-right text-gray-600">
@@ -121,12 +106,14 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
               <div className="grid grid-cols-6 gap-x-2 text-gray-700 font-normal">
                 <p className="col-span-3">Sub Total</p>
                 <p className="col-span-3 text-right">
-                  ${subtotal.toFixed(2)} USD
+                  ${invoiceData.subtotal.toFixed(2)} USD
                 </p>
               </div>
               <div className="grid grid-cols-6 gap-x-2 font-medium">
                 <p className="col-span-3">Total</p>
-                <p className="col-span-3 text-right">${total.toFixed(2)} USD</p>
+                <p className="col-span-3 text-right">
+                  ${invoiceData.total.toFixed(2)} USD
+                </p>
               </div>
             </div>
           </div>
@@ -156,7 +143,7 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100">
+                <tr className="border-b border-gray-200">
                   <td className="py-3">
                     {dayjs(invoiceData.transaction.date).format(
                       "YYYY/MM/DD HH:mm",
@@ -173,8 +160,8 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-between items-center text-gray-600">
-            <p>Transaction Hash</p>
+          <div className="flex justify-between items-center text-gray-600 mt-1">
+            <p>Hash</p>
             <p className="text-gray-400">{invoiceData.transaction.txHash}</p>
           </div>
         </div>
