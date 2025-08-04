@@ -38,7 +38,7 @@ const Page = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col justify-center min-h-screen">
       <div className="absolute top-4 right-4">
         <Button variant="outline" onClick={handleDownload}>
           Download
