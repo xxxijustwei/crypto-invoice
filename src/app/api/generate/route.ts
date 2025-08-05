@@ -91,12 +91,15 @@ const getBrowser = async () => {
           headless: true,
         })
       : await puppeteer.launch({
-          args: [...chromium.args, "--disable-dev-shm-usage"],
+          args: [
+            ...chromium.args,
+            "--disable-dev-shm-usage",
+            "--ignore-certificate-errors",
+          ],
           executablePath: await chromium.executablePath(
             CHROMIUM_EXECUTABLE_PATH.replace("{arch}", process.arch),
           ),
           headless: true,
-          ignoreHTTPSErrors: true,
         });
 
   return browser;
