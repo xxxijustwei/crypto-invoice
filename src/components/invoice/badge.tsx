@@ -4,7 +4,7 @@ import { TokenIcon } from "../icons/token";
 export const TokenBadge = ({ tokenName }: { tokenName: string }) => {
   return (
     <div className="w-fit flex items-center gap-1 px-2 py-1 rounded-full bg-zinc-100 text-sm text-teal-900">
-      <TokenIcon id={tokenName} />
+      <TokenIcon id={tokenName} width={20} height={20} />
       {tokenName}
     </div>
   );
@@ -13,7 +13,7 @@ export const TokenBadge = ({ tokenName }: { tokenName: string }) => {
 export const NetworkBadge = ({ networkName }: { networkName: string }) => {
   return (
     <div className="w-fit flex items-center gap-1 px-2 py-1 rounded-full bg-zinc-100 text-sm text-teal-900">
-      <NetworkIcon id={networkName} />
+      <NetworkIcon id={networkName} width={20} height={20} />
       {networkName}
     </div>
   );
