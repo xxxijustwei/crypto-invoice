@@ -27,7 +27,7 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 Issued Date:
               </span>
               <span className="col-span-3">
-                {dayjs(invoiceData.createdAt).format("MMMM D, YYYY")}
+                {dayjs(invoiceData.issuedAt).format("MMMM D, YYYY")}
               </span>
             </div>
             <div className="grid grid-cols-5 gap-x-2">
@@ -35,7 +35,7 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 Due Date:
               </span>
               <span className="col-span-3">
-                {dayjs(invoiceData.createdAt).format("MMMM D, YYYY")}
+                {dayjs(invoiceData.dueAt).format("MMMM D, YYYY")}
               </span>
             </div>
           </div>
@@ -70,41 +70,85 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <h2 className="text-lg font-medium px-2">💰 Payment Method:</h2>
-        <div className="border border-neutral-100 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2 bg-slate-100 rounded-lg px-4 py-3">
-              <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-light">Wallet Address:</p>
-                <p className="break-all">
-                  0x6a569215be90A55B4c615368fCB13F75d99cPay0
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex flex-1 flex-col gap-2">
-                <p className="text-sm font-light px-2">Networks:</p>
-                <div className="flex flex-wrap gap-1">
-                  <NetworkBadge networkName="Ethereum" />
-                  <NetworkBadge networkName="Avalanche" />
-                  <NetworkBadge networkName="BSC" />
-                  <NetworkBadge networkName="Arbitrum" />
-                  <NetworkBadge networkName="Base" />
+      {invoiceData.status === "Paid" && invoiceData.transaction ? (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-lg font-medium px-2">🧾 Transaction:</h2>
+          <div className="border border-neutral-100 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 bg-slate-100 rounded-lg px-4 py-3">
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-sm font-light">Transaction Hash:</p>
+                  <p className="break-all">{invoiceData.transaction.txHash}</p>
                 </div>
               </div>
-              <div className="flex flex-1 flex-col gap-2">
-                <p className="text-sm font-light px-2">Tokens:</p>
-                <div className="flex flex-wrap gap-1">
-                  <TokenBadge tokenName="USDC" />
-                  <TokenBadge tokenName="USDT" />
-                  <TokenBadge tokenName="USDC" />
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-light">Network:</p>
+                    <NetworkBadge
+                      networkName={invoiceData.transaction.networkName}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-light">Token:</p>
+                    <TokenBadge tokenName={invoiceData.transaction.tokenName} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-light">Amount:</p>
+                    <p className="text-sm font-medium px-1">
+                      ${invoiceData.transaction.amount.toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-light">Date:</p>
+                    <p className="text-sm font-medium px-1">
+                      {dayjs(invoiceData.transaction.date).format(
+                        "MMMM D, YYYY",
+                      )}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-lg font-medium px-2">💰 Payment Method:</h2>
+          <div className="border border-neutral-100 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2 bg-slate-100 rounded-lg px-4 py-3">
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-sm font-light">Wallet Address:</p>
+                  <p className="break-all">
+                    {invoiceData.paymentMethod.walletAddress}
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex flex-1 flex-col gap-2">
+                  <p className="text-sm font-light px-2">Supported Networks:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {invoiceData.paymentMethod.networks.map((network) => (
+                      <NetworkBadge key={network} networkName={network} />
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-1 flex-col gap-2">
+                  <p className="text-sm font-light px-2">Supported Tokens:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {invoiceData.paymentMethod.tokens.map((token) => (
+                      <TokenBadge key={token} tokenName={token} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="h-px bg-gray-200" />
 

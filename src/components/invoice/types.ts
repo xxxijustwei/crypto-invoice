@@ -8,12 +8,17 @@ export interface Invoice {
   id: string;
   status: "Paid" | "Unpaid";
   num: number;
-  createdAt: string;
+  issuedAt: string;
+  dueAt: string;
   payTo: BillingAddress;
   invoicedTo: BillingAddress;
+  paymentMethod: {
+    walletAddress: string;
+    networks: string[];
+    tokens: string[];
+  };
   items: {
     name: string;
-    detail: string;
     qty: number;
     amount: number;
   }[];
