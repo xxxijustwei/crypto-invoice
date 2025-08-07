@@ -40,7 +40,7 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
             </div>
           </div>
         </div>
-        <div className="p-4 border border-gray-200 rounded-4xl">
+        <div className="p-4 border border-gray-300 rounded-4xl shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
           <AnvilIcon size={64} />
         </div>
       </div>
