@@ -1,6 +1,7 @@
 import type { Invoice } from "@/components/invoice/types";
 import {
   randAddress,
+  randBetweenDate,
   randBic,
   randCompanyName,
   randCountry,
@@ -13,16 +14,17 @@ import {
 } from "@ngneat/falso";
 
 export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
-  const randDate = randRecentDate();
+  const issuedDate = randRecentDate();
+  const dueDate = new Date(
+    issuedDate.getTime() +
+      randNumber({ min: 1, max: 30 }) * 24 * 60 * 60 * 1000,
+  );
   const invoice = {
     id: randUuid(),
     status: type,
     num: randNumber({ min: 100, max: 999 }),
-    issuedAt: randDate.toISOString(),
-    dueAt: new Date(
-      randDate.getTime() +
-        randNumber({ min: 1, max: 30 }) * 24 * 60 * 60 * 1000,
-    ).toISOString(),
+    issuedAt: issuedDate.toISOString(),
+    dueAt: dueDate.toISOString(),
     payTo: mockAddress(),
     invoicedTo: mockAddress(),
     paymentMethod: {
@@ -64,10 +66,10 @@ export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
         txHash:
           "0x88521cc890ec93853f55f2985cbd5e66b62f51a17b4e1dff1e13dbb08fd7fbb6",
         amount: 15.82,
-        date: new Date(
-          randDate.getTime() +
-            randNumber({ min: 1, max: 30 }) * 24 * 60 * 60 * 1000,
-        ).toISOString(),
+        date: randBetweenDate({
+          from: issuedDate,
+          to: dueDate,
+        }).toISOString(),
       },
     }),
     subtotal,
