@@ -1,13 +1,16 @@
 "use client";
 
 import InvoiceComponent from "@/components/invoice/template";
-import type { Invoice } from "@/components/invoice/types";
 import { Button } from "@/components/wed/button";
 import { getMockInvoice } from "@/lib/mock";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import { useQuery } from "react-query";
 
 const Page = () => {
-  const [invoice, setInvoice] = useState<Invoice>();
+  const { data: invoice, isLoading } = useQuery({
+    queryKey: ["invoice"],
+    queryFn: () => getMockInvoice(),
+  });
 
   const handleDownload = useCallback(async () => {
     const response = await fetch("/api/generate", {
@@ -29,12 +32,8 @@ const Page = () => {
     URL.revokeObjectURL(url);
   }, [invoice]);
 
-  useEffect(() => {
-    setInvoice(getMockInvoice());
-  }, []);
-
-  if (!invoice) {
-    return <></>;
+  if (isLoading || !invoice) {
+    return null;
   }
 
   return (
