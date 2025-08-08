@@ -4,14 +4,14 @@ import {
   randBetweenDate,
   randBic,
   randCompanyName,
-  randCountry,
+  randEmail,
   randEthereumAddress,
   randNumber,
-  randParagraph,
   randProductName,
   randRecentDate,
   randUuid,
 } from "@ngneat/falso";
+import { Decimal } from "decimal.js";
 
 export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
   const issuedDate = randRecentDate();
@@ -37,7 +37,7 @@ export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
       qty: randNumber({ min: 1, max: 10 }),
       amount: randNumber({ min: 200, max: 1000 }),
     })),
-    discount: {
+    promotionalCode: {
       code: randBic(),
       amount: -randNumber({ min: 1, max: 100 }),
     },
@@ -52,10 +52,11 @@ export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
   };
 
   const subtotal = invoice.items.reduce(
-    (sum, item) => sum + item.amount * item.qty,
-    0,
+    (sum, item) => sum.add(new Decimal(item.amount).mul(item.qty)),
+    new Decimal(0),
   );
-  const total = subtotal + invoice.discount.amount;
+  const discount = new Decimal(invoice.promotionalCode?.amount ?? 0);
+  const total = subtotal.add(discount);
 
   return {
     ...invoice,
@@ -72,8 +73,9 @@ export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
         }).toISOString(),
       },
     }),
-    subtotal,
-    total,
+    subtotal: subtotal.toNumber(),
+    discount: discount.toNumber(),
+    total: total.toNumber(),
   };
 };
 
@@ -81,7 +83,7 @@ const mockAddress = () => {
   const address = randAddress();
   return {
     company: randCompanyName(),
-    country: address.country ?? randCountry(),
+    email: randEmail(),
     address: `${address.street}, ${address.city}, ${address.country}`,
   };
 };

@@ -10,6 +10,9 @@ const Page = () => {
   const { data: invoice, isLoading } = useQuery({
     queryKey: ["invoice"],
     queryFn: () => getMockInvoice(),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const handleDownload = useCallback(async () => {

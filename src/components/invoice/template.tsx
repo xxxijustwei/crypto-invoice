@@ -1,25 +1,43 @@
 import dayjs from "dayjs";
+import { Decimal } from "decimal.js";
 import { AnvilIcon } from "lucide-react";
 import type React from "react";
+import { Skeleton } from "../ui/skeleton";
 import { NetworkBadge, TokenBadge } from "./badge";
-import type { Invoice } from "./types";
+import type { PreivewInvoice } from "./types";
 
 interface InvoiceComponentProps {
-  invoice: Invoice;
+  invoice: PreivewInvoice;
 }
 
 const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
-  const invoiceData = invoice;
+  const {
+    num,
+    status,
+    issuedAt,
+    dueAt,
+    payTo,
+    invoicedTo,
+    paymentMethod,
+    items,
+    promotionalCode,
+    transaction,
+    subtotal,
+    discount,
+    total,
+  } = invoice;
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl mx-auto p-6 sm:p-10 bg-white">
       <div className="flex justify-between items-start mb-6">
         <div className="flex flex-col gap-2 text-primary">
           <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-light">Invoice #{invoiceData.num}</h1>
-            <span className="px-3 py-1 bg-green-100 text-green-700 text-sm rounded">
-              {invoiceData.status}
-            </span>
+            <h1 className="text-4xl font-light">Invoice #{num}</h1>
+            {status && (
+              <span className="px-3 py-1 bg-red-100 text-red-700 text-sm rounded">
+                {status}
+              </span>
+            )}
           </div>
           <div className="flex flex-col gap-1">
             <div className="grid grid-cols-5 gap-x-2">
@@ -27,7 +45,11 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 Issued Date:
               </span>
               <span className="col-span-3">
-                {dayjs(invoiceData.issuedAt).format("MMMM D, YYYY")}
+                {issuedAt ? (
+                  dayjs(issuedAt).format("MMMM D, YYYY")
+                ) : (
+                  <Skeleton className="h-6 bg-primary/10" />
+                )}
               </span>
             </div>
             <div className="grid grid-cols-5 gap-x-2">
@@ -35,7 +57,11 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 Due Date:
               </span>
               <span className="col-span-3">
-                {dayjs(invoiceData.dueAt).format("MMMM D, YYYY")}
+                {dueAt ? (
+                  dayjs(dueAt).format("MMMM D, YYYY")
+                ) : (
+                  <Skeleton className="h-6 bg-primary/10" />
+                )}
               </span>
             </div>
           </div>
@@ -51,26 +77,40 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">👤 Pay To:</h2>
           <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm text-gray-500">
-            <p className="text-lg font-medium text-primary">
-              {invoiceData.payTo.company}
-            </p>
-            <p>test@gmail.com</p>
-            <p>{invoiceData.payTo.address}</p>
+            <div className="text-lg font-medium text-primary">
+              {payTo?.company ?? (
+                <Skeleton className="w-[46%] min-w-24 h-7 bg-primary/10" />
+              )}
+            </div>
+            <div>
+              {payTo?.email ?? <Skeleton className="h-5 bg-primary/10" />}
+            </div>
+            <div>
+              {payTo?.address ?? <Skeleton className="h-5 bg-primary/10" />}
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">👤 Invoiced To:</h2>
           <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm text-gray-500">
-            <p className="text-lg font-medium text-primary">
-              {invoiceData.invoicedTo.company}
-            </p>
-            <p>test@gmail.com</p>
-            <p>{invoiceData.invoicedTo.address}</p>
+            <div className="text-lg font-medium text-primary">
+              {invoicedTo?.company ?? (
+                <Skeleton className="w-[46%] min-w-24 h-7 bg-primary/10" />
+              )}
+            </div>
+            <div>
+              {invoicedTo?.email ?? <Skeleton className="h-5 bg-primary/10" />}
+            </div>
+            <div>
+              {invoicedTo?.address ?? (
+                <Skeleton className="h-5 bg-primary/10" />
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {invoiceData.status === "Paid" && invoiceData.transaction ? (
+      {status === "Paid" && transaction ? (
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">🧾 Transaction:</h2>
           <div className="border border-neutral-100 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
@@ -78,35 +118,31 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
               <div className="flex flex-col gap-2 bg-slate-100 rounded-lg px-4 py-3">
                 <div className="flex flex-col gap-0.5">
                   <p className="text-sm font-light">Transaction Hash:</p>
-                  <p className="break-all">{invoiceData.transaction.txHash}</p>
+                  <p className="break-all">{transaction.txHash}</p>
                 </div>
               </div>
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-light">Network:</p>
-                    <NetworkBadge
-                      networkName={invoiceData.transaction.networkName}
-                    />
+                    <NetworkBadge networkName={transaction.networkName} />
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-light">Token:</p>
-                    <TokenBadge tokenName={invoiceData.transaction.tokenName} />
+                    <TokenBadge tokenName={transaction.tokenName} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-light">Amount:</p>
                     <p className="text-sm font-medium px-1">
-                      ${invoiceData.transaction.amount.toFixed(2)}
+                      ${new Decimal(transaction.amount).toFixed(2)}
                     </p>
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-light">Date:</p>
                     <p className="text-sm font-medium px-1">
-                      {dayjs(invoiceData.transaction.date).format(
-                        "MMMM D, YYYY",
-                      )}
+                      {dayjs(transaction.date).format("MMMM D, YYYY")}
                     </p>
                   </div>
                 </div>
@@ -123,7 +159,9 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 <div className="flex flex-col gap-0.5">
                   <p className="text-sm font-light">Wallet Address:</p>
                   <p className="break-all">
-                    {invoiceData.paymentMethod.walletAddress}
+                    {paymentMethod?.walletAddress ?? (
+                      <Skeleton className="w-72 h-6 bg-primary/10" />
+                    )}
                   </p>
                 </div>
               </div>
@@ -131,17 +169,25 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
                 <div className="flex flex-1 flex-col gap-2">
                   <p className="text-sm font-light px-2">Supported Networks:</p>
                   <div className="flex flex-wrap gap-1">
-                    {invoiceData.paymentMethod.networks.map((network) => (
-                      <NetworkBadge key={network} networkName={network} />
-                    ))}
+                    {paymentMethod?.networks ? (
+                      paymentMethod.networks.map((network) => (
+                        <NetworkBadge key={network} networkName={network} />
+                      ))
+                    ) : (
+                      <Skeleton className="w-32 h-6 bg-primary/10" />
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
                   <p className="text-sm font-light px-2">Supported Tokens:</p>
                   <div className="flex flex-wrap gap-1">
-                    {invoiceData.paymentMethod.tokens.map((token) => (
-                      <TokenBadge key={token} tokenName={token} />
-                    ))}
+                    {paymentMethod?.tokens ? (
+                      paymentMethod.tokens.map((token) => (
+                        <TokenBadge key={token} tokenName={token} />
+                      ))
+                    ) : (
+                      <Skeleton className="w-32 h-6 bg-primary/10" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -174,20 +220,23 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
               </tr>
             </thead>
             <tbody>
-              {invoiceData.items.map((item, index) => (
+              {items?.map((item, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-100 last:border-b-0"
                 >
                   <td className="px-4 py-6">{item.name}</td>
                   <td className="px-4 py-6 text-right text-gray-500">
-                    ${item.amount.toFixed(2)}
+                    ${new Decimal(item.amount ?? 0).toFixed(2)}
                   </td>
                   <td className="px-4 py-6 text-right text-gray-500">
-                    {item.qty}
+                    {item.qty ?? 0}
                   </td>
                   <td className="px-4 py-6 text-right text-gray-800">
-                    ${(item.amount * item.qty).toFixed(2)}
+                    $
+                    {new Decimal(item.amount ?? 0)
+                      .mul(item.qty ?? 0)
+                      .toFixed(2)}
                   </td>
                 </tr>
               ))}
@@ -195,17 +244,19 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
           </table>
         </div>
 
-        <div className="p-3 bg-gray-50 rounded-lg">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-1">
-              <p>🎁 Promotional Code:</p>
-              <p className="text-gray-500">{invoiceData.discount.code}</p>
+        {promotionalCode && (
+          <div className="p-3 bg-gray-50 rounded-lg">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-1">
+                <p>🎁 Promotional Code:</p>
+                <p className="text-gray-500">{promotionalCode.code}</p>
+              </div>
+              <p className="font-medium text-right text-gray-600">
+                ${new Decimal(promotionalCode.amount).toFixed(2)} USD
+              </p>
             </div>
-            <p className="font-medium text-right text-gray-600">
-              ${invoiceData.discount.amount.toFixed(2)} USD
-            </p>
           </div>
-        </div>
+        )}
 
         <div className="flex justify-end items-start pt-3">
           <div className="flex flex-col gap-3">
@@ -213,20 +264,20 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({ invoice }) => {
               <div className="grid grid-cols-10 gap-x-2">
                 <p className="col-span-6">Subtotal</p>
                 <p className="col-span-4 text-right text-gray-500">
-                  ${invoiceData.subtotal.toFixed(2)} USD
+                  ${new Decimal(subtotal ?? 0).toFixed(2)} USD
                 </p>
               </div>
               <div className="grid grid-cols-10 gap-x-2">
                 <p className="col-span-6">Discount</p>
                 <p className="col-span-4 text-right text-gray-500">
-                  ${invoiceData.discount.amount.toFixed(2)} USD
+                  ${new Decimal(discount ?? 0).toFixed(2)} USD
                 </p>
               </div>
             </div>
             <div className="grid grid-cols-10 gap-x-2 px-4 py-3 bg-slate-100 rounded-md font-medium">
               <p className="col-span-6">Total</p>
               <p className="col-span-4 text-right">
-                ${invoiceData.total.toFixed(2)} USD
+                ${new Decimal(total ?? 0).toFixed(2)} USD
               </p>
             </div>
           </div>
