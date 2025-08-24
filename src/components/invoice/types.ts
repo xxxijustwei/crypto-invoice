@@ -1,4 +1,4 @@
-interface InvoiceBillingAddress {
+interface InvoiceContactInfo {
   company: string;
   email: string;
   address: string;
@@ -10,7 +10,7 @@ interface InvoicePaymentMethod {
   tokens: string[];
 }
 
-interface InvoiceItem {
+export interface InvoiceItem {
   name: string;
   qty: number;
   amount: number;
@@ -35,8 +35,8 @@ export interface Invoice {
   num: number;
   issuedAt: string;
   dueAt: string;
-  payTo: InvoiceBillingAddress;
-  invoicedTo: InvoiceBillingAddress;
+  payTo: InvoiceContactInfo;
+  invoicedTo: InvoiceContactInfo;
   paymentMethod: InvoicePaymentMethod;
   items: InvoiceItem[];
   promotionalCode?: InvoicePromotionalCode;
@@ -50,8 +50,8 @@ export interface PreivewInvoice
   extends Partial<
     Omit<Invoice, "id" | "payTo" | "invoicedTo" | "paymentMethod" | "items">
   > {
-  payTo?: Partial<InvoiceBillingAddress>;
-  invoicedTo?: Partial<InvoiceBillingAddress>;
+  payTo?: Partial<InvoiceContactInfo>;
+  invoicedTo?: Partial<InvoiceContactInfo>;
   paymentMethod?: Partial<InvoicePaymentMethod>;
   items?: Partial<InvoiceItem>[];
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { useId } from "react";
 import type { SVGProps } from "react";
 
 export const ArbitrumIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -118,80 +121,89 @@ export const BSCIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const EthereumIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    {...props}
-  >
-    <g clipPath="url(#a)">
-      <g clipPath="url(#b)">
-        <path
-          fill="#6279F8"
-          d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
-        />
-        <path fill="#C8D0FF" d="M12.373 3v6.652l5.623 2.513z" />
-        <path fill="#fff" d="M12.373 3 6.75 12.165l5.623-2.513z" />
-        <path fill="#C6CFFF" d="M12.373 16.476v4.52L18 13.212z" />
-        <path fill="#fff" d="M12.373 20.996v-4.521L6.75 13.212z" />
-        <path fill="#8296F8" d="m12.373 15.43 5.623-3.265-5.623-2.511z" />
-        <path fill="#C6CFFF" d="m6.75 12.165 5.623 3.265V9.654z" />
-      </g>
-    </g>
-    <defs>
-      <clipPath id="a">
-        <path fill="#fff" d="M0 0h24v24H0z" />
-      </clipPath>
-      <clipPath id="b">
-        <path fill="#fff" d="M0 0h24v24H0z" />
-      </clipPath>
-    </defs>
-    <script />
-  </svg>
-);
+export const EthereumIcon = (props: SVGProps<SVGSVGElement>) => {
+  const clipPathIdA = useId();
+  const clipPathIdB = useId();
 
-export const SolanaIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    {...props}
-  >
-    <path
-      fill="#00FFAD"
-      d="M16.951 8.952a.45.45 0 0 1-.314.132H5.489c-.394 0-.593-.48-.32-.766L7 6.425a.45.45 0 0 1 .319-.137h11.188c.396 0 .596.485.315.77zm0 8.463a.45.45 0 0 1-.314.13H5.489a.44.44 0 0 1-.32-.747L7 14.95a.45.45 0 0 1 .319-.132h11.188a.44.44 0 0 1 .315.75zm-.314-6.862a.44.44 0 0 1 .314.13l1.87 1.848c.28.275.081.75-.315.75H7.318a.45.45 0 0 1-.32-.131L5.17 11.302a.438.438 0 0 1 .319-.747z"
-    />
-    <path
-      fill="#000"
-      d="M12 0c6.626 0 12 5.374 12 12s-5.374 12-12 12S0 18.626 0 12 5.374 0 12 0"
-    />
-    <path
-      fill="url(#a)"
-      fillRule="evenodd"
-      d="M5.549 10.855h11.105c.139 0 .27.055.367.154l1.757 1.768a.518.518 0 0 1-.367.884H7.305a.5.5 0 0 1-.367-.154l-1.757-1.769a.518.518 0 0 1 .367-.883M5.182 8.51l1.757-1.769a.52.52 0 0 1 .367-.153h11.102c.46 0 .694.557.367.883L17.021 9.24a.52.52 0 0 1-.367.153H5.549a.518.518 0 0 1-.367-.883m13.593 7.496-1.756 1.768a.52.52 0 0 1-.368.154H5.55a.518.518 0 0 1-.367-.883l1.757-1.77a.52.52 0 0 1 .367-.153h11.102c.46 0 .694.557.367.884"
-      clipRule="evenodd"
-    />
-    <defs>
-      <linearGradient
-        id="a"
-        x1={5.821}
-        x2={18.136}
-        y1={18.416}
-        y2={6.1}
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stopColor="#CB4EE8" />
-        <stop offset={1} stopColor="#10F4B1" />
-      </linearGradient>
-    </defs>
-    <script />
-  </svg>
-);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      {...props}
+    >
+      <g clipPath={`url(#${clipPathIdA})`}>
+        <g clipPath={`url(#${clipPathIdB})`}>
+          <path
+            fill="#6279F8"
+            d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
+          />
+          <path fill="#C8D0FF" d="M12.373 3v6.652l5.623 2.513z" />
+          <path fill="#fff" d="M12.373 3 6.75 12.165l5.623-2.513z" />
+          <path fill="#C6CFFF" d="M12.373 16.476v4.52L18 13.212z" />
+          <path fill="#fff" d="M12.373 20.996v-4.521L6.75 13.212z" />
+          <path fill="#8296F8" d="m12.373 15.43 5.623-3.265-5.623-2.511z" />
+          <path fill="#C6CFFF" d="m6.75 12.165 5.623 3.265V9.654z" />
+        </g>
+      </g>
+      <defs>
+        <clipPath id={clipPathIdA}>
+          <path fill="#fff" d="M0 0h24v24H0z" />
+        </clipPath>
+        <clipPath id={clipPathIdB}>
+          <path fill="#fff" d="M0 0h24v24H0z" />
+        </clipPath>
+      </defs>
+      <script />
+    </svg>
+  );
+};
+
+export const SolanaIcon = (props: SVGProps<SVGSVGElement>) => {
+  const gradientId = useId();
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      {...props}
+    >
+      <path
+        fill="#00FFAD"
+        d="M16.951 8.952a.45.45 0 0 1-.314.132H5.489c-.394 0-.593-.48-.32-.766L7 6.425a.45.45 0 0 1 .319-.137h11.188c.396 0 .596.485.315.77zm0 8.463a.45.45 0 0 1-.314.13H5.489a.44.44 0 0 1-.32-.747L7 14.95a.45.45 0 0 1 .319-.132h11.188a.44.44 0 0 1 .315.75zm-.314-6.862a.44.44 0 0 1 .314.13l1.87 1.848c.28.275.081.75-.315.75H7.318a.45.45 0 0 1-.32-.131L5.17 11.302a.438.438 0 0 1 .319-.747z"
+      />
+      <path
+        fill="#000"
+        d="M12 0c6.626 0 12 5.374 12 12s-5.374 12-12 12S0 18.626 0 12 5.374 0 12 0"
+      />
+      <path
+        fill={`url(#${gradientId})`}
+        fillRule="evenodd"
+        d="M5.549 10.855h11.105c.139 0 .27.055.367.154l1.757 1.768a.518.518 0 0 1-.367.884H7.305a.5.5 0 0 1-.367-.154l-1.757-1.769a.518.518 0 0 1 .367-.883M5.182 8.51l1.757-1.769a.52.52 0 0 1 .367-.153h11.102c.46 0 .694.557.367.883L17.021 9.24a.52.52 0 0 1-.367.153H5.549a.518.518 0 0 1-.367-.883m13.593 7.496-1.756 1.768a.52.52 0 0 1-.368.154H5.55a.518.518 0 0 1-.367-.883l1.757-1.77a.52.52 0 0 1 .367-.153h11.102c.46 0 .694.557.367.884"
+        clipRule="evenodd"
+      />
+      <defs>
+        <linearGradient
+          id={gradientId}
+          x1={5.821}
+          x2={18.136}
+          y1={18.416}
+          y2={6.1}
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#CB4EE8" />
+          <stop offset={1} stopColor="#10F4B1" />
+        </linearGradient>
+      </defs>
+      <script />
+    </svg>
+  );
+};
 
 export const TronIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
