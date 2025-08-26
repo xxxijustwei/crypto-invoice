@@ -1,5 +1,5 @@
 import type { Invoice } from "@/components/invoice/types";
-import { Networks, Tokens } from "@/config/contants";
+import { NetworkMap, Networks, Tokens } from "@/types/network";
 import {
   rand,
   randAddress,
@@ -14,6 +14,7 @@ import {
   randUuid,
 } from "@ngneat/falso";
 import { Decimal } from "decimal.js";
+import _ from "lodash";
 
 export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
   const issuedDate = randRecentDate();
@@ -28,15 +29,15 @@ export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
   const networks = Networks.filter(
     (network) => network.category === chainCateogry,
   ).map((network) => network.id);
-  const tokens = Tokens.filter((token) =>
-    networks.some((network) => token.availableNetworks.includes(network)),
-  ).map((token) => token.id);
+  const tokens = _.intersection(
+    ...networks.map((network) => NetworkMap.get(network)?.stableCoins ?? []),
+  );
 
   const walletAddress =
     {
-      EVM: "0x6a569215be90A55B4c615368fCB13F75d99c8A60",
-      SOL: "6b54r1s3FYuRg3qDguyNEK7vr62TtbrPgFeXU6YC1YmQ",
-      TVM: "TFgphAx29XEwrS8feFMpPfqzypjYzNysSH",
+      evm: "0x6a569215be90A55B4c615368fCB13F75d99c8A60",
+      solana: "6b54r1s3FYuRg3qDguyNEK7vr62TtbrPgFeXU6YC1YmQ",
+      tron: "TFgphAx29XEwrS8feFMpPfqzypjYzNysSH",
     }[chainCateogry] ?? randEthereumAddress();
 
   const invoice = {
