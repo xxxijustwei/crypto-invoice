@@ -1,7 +1,9 @@
 import type { Invoice } from "@/components/invoice/types";
+import enUS from "@/i18n/locales/en-US";
 import { ENV } from "@/lib/env";
 import { getInvoiceTemplate, getReactDOMServer } from "@/lib/module";
 import chromium from "@sparticuz/chromium";
+import { getTranslations } from "next-intl/server";
 import type { NextRequest } from "next/server";
 import React from "react";
 
@@ -62,6 +64,7 @@ export const POST = async (req: NextRequest) => {
 };
 
 const generateHTML = async (invoice: Invoice) => {
+  const t = await getTranslations("invoice");
   const [reactDOMServer, invoiceTemplate] = await Promise.all([
     getReactDOMServer(),
     getInvoiceTemplate(),
@@ -74,7 +77,16 @@ const generateHTML = async (invoice: Invoice) => {
   }
 
   return reactDOMServer.renderToStaticMarkup(
-    React.createElement(invoiceTemplate, { invoice }),
+    React.createElement(invoiceTemplate, {
+      invoice,
+      translations: Object.keys(enUS.invoice).reduce(
+        (acc, key) => {
+          acc[key] = t(key);
+          return acc;
+        },
+        {} as Record<string, string>,
+      ),
+    }),
   );
 };
 

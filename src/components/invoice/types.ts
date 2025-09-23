@@ -48,8 +48,12 @@ export interface Invoice {
 
 export interface PreivewInvoice
   extends Partial<
-    Omit<Invoice, "id" | "payTo" | "invoicedTo" | "paymentMethod" | "items">
+    Omit<
+      Invoice,
+      "id" | "payTo" | "invoicedTo" | "paymentMethod" | "items" | "status"
+    >
   > {
+  status: Invoice["status"];
   payTo?: Partial<InvoiceContactInfo>;
   invoicedTo?: Partial<InvoiceContactInfo>;
   paymentMethod?: Partial<InvoicePaymentMethod>;

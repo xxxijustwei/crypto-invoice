@@ -1,6 +1,3 @@
-"use client";
-
-import { useId } from "react";
 import type { SVGProps } from "react";
 
 export const USDTIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -110,9 +107,6 @@ export const FDUSDIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export const USDeIcon = (props: SVGProps<SVGSVGElement>) => {
-  const gradientId = useId();
-  const strokeGradientId = useId();
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -129,12 +123,12 @@ export const USDeIcon = (props: SVGProps<SVGSVGElement>) => {
         d="M12 .454h.001C18.377.454 23.547 5.623 23.547 12v.001c0 6.377-5.169 11.546-11.546 11.546H12c-6.377 0-11.546-5.17-11.546-11.546V12C.454 5.623 5.623.454 12 .454Z"
       />
       <path
-        fill={`url(#${gradientId})`}
+        fill="url(#USDeFillNcsoo)"
         fillOpacity={0.7}
         d="M12 .241C5.505.241.241 5.506.241 12v.001C.241 18.495 5.505 23.76 12 23.76c6.494 0 11.759-5.264 11.759-11.759V12C23.759 5.506 18.494.241 12 .241"
       />
       <path
-        stroke={`url(#${strokeGradientId})`}
+        stroke="url(#USDePath8Sx8s)"
         strokeWidth={0.43}
         d="M12 .241h-.001C5.505.241.241 5.506.241 12v.001C.241 18.495 5.505 23.76 12 23.76c6.494 0 11.759-5.264 11.759-11.759V12C23.759 5.506 18.494.241 12 .241Z"
       />
@@ -150,7 +144,7 @@ export const USDeIcon = (props: SVGProps<SVGSVGElement>) => {
       />
       <defs>
         <radialGradient
-          id={gradientId}
+          id="USDeFillNcsoo"
           cx={0}
           cy={0}
           r={1}
@@ -167,8 +161,6 @@ export const USDeIcon = (props: SVGProps<SVGSVGElement>) => {
 };
 
 export const USDSIcon = (props: SVGProps<SVGSVGElement>) => {
-  const gradientId = useId();
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +172,7 @@ export const USDSIcon = (props: SVGProps<SVGSVGElement>) => {
     >
       <defs>
         <radialGradient
-          id={gradientId}
+          id="USDSFillSss7Y"
           cx={976.277}
           cy={23.974}
           r={2.069}
@@ -196,7 +188,7 @@ export const USDSIcon = (props: SVGProps<SVGSVGElement>) => {
       <path
         d="M24 12a12 12 0 0 1-12 12A12 12 0 0 1 0 12a12 12 0 0 1 24 0"
         style={{
-          fill: `url(#${gradientId})`,
+          fill: "url(#USDSFillSss7Y)",
           strokeWidth: 0,
         }}
       />

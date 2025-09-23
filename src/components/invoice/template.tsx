@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { Decimal } from "decimal.js";
 import { AnvilIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import type React from "react";
 import { Skeleton } from "../ui/skeleton";
 import { NetworkBadge, TokenBadge } from "./badge";
@@ -9,10 +8,11 @@ import type { PreivewInvoice } from "./types";
 
 interface InvoiceComponentProps {
   invoice: PreivewInvoice;
+  translations: Record<string, string>;
 }
 
-const InvoiceComponent = ({ invoice }: InvoiceComponentProps) => {
-  const t = useTranslations("invoice");
+const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
+  const t = (key: string) => translations[key];
   const {
     num,
     status,
@@ -78,32 +78,32 @@ const InvoiceComponent = ({ invoice }: InvoiceComponentProps) => {
       <div className="grid grid-cols-2 gap-4 sm:gap-8">
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">👤 {t("pay_to")}:</h2>
-          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm text-gray-500">
-            <div className="text-lg font-medium text-primary">
+          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm">
+            <div className="text-lg font-medium">
               {payTo?.company ?? (
                 <Skeleton className="w-[46%] min-w-24 h-7 bg-primary/10" />
               )}
             </div>
-            <div>
+            <div className="text-gray-500">
               {payTo?.email ?? <Skeleton className="h-5 bg-primary/10" />}
             </div>
-            <div>
+            <div className="text-gray-500">
               {payTo?.address ?? <Skeleton className="h-5 bg-primary/10" />}
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">👤 {t("invoiced_to")}:</h2>
-          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm text-gray-500">
+          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm">
             <div className="text-lg font-medium text-primary">
               {invoicedTo?.company ?? (
                 <Skeleton className="w-[46%] min-w-24 h-7 bg-primary/10" />
               )}
             </div>
-            <div>
+            <div className="text-gray-500">
               {invoicedTo?.email ?? <Skeleton className="h-5 bg-primary/10" />}
             </div>
-            <div>
+            <div className="text-gray-500">
               {invoicedTo?.address ?? (
                 <Skeleton className="h-5 bg-primary/10" />
               )}

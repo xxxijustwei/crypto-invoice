@@ -1,6 +1,3 @@
-"use client";
-
-import { useId } from "react";
 import type { SVGProps } from "react";
 
 export const ArbitrumIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -122,9 +119,6 @@ export const BSCIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 export const EthereumIcon = (props: SVGProps<SVGSVGElement>) => {
-  const clipPathIdA = useId();
-  const clipPathIdB = useId();
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -134,8 +128,8 @@ export const EthereumIcon = (props: SVGProps<SVGSVGElement>) => {
       fill="none"
       {...props}
     >
-      <g clipPath={`url(#${clipPathIdA})`}>
-        <g clipPath={`url(#${clipPathIdB})`}>
+      <g clipPath="url(#clipETHsdfslk)">
+        <g clipPath="url(#clipETHxui23)">
           <path
             fill="#6279F8"
             d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12"
@@ -149,10 +143,10 @@ export const EthereumIcon = (props: SVGProps<SVGSVGElement>) => {
         </g>
       </g>
       <defs>
-        <clipPath id={clipPathIdA}>
+        <clipPath id="clipETHsdfslk">
           <path fill="#fff" d="M0 0h24v24H0z" />
         </clipPath>
-        <clipPath id={clipPathIdB}>
+        <clipPath id="clipETHxui23">
           <path fill="#fff" d="M0 0h24v24H0z" />
         </clipPath>
       </defs>
@@ -162,8 +156,6 @@ export const EthereumIcon = (props: SVGProps<SVGSVGElement>) => {
 };
 
 export const SolanaIcon = (props: SVGProps<SVGSVGElement>) => {
-  const gradientId = useId();
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -182,14 +174,14 @@ export const SolanaIcon = (props: SVGProps<SVGSVGElement>) => {
         d="M12 0c6.626 0 12 5.374 12 12s-5.374 12-12 12S0 18.626 0 12 5.374 0 12 0"
       />
       <path
-        fill={`url(#${gradientId})`}
+        fill="url(#SVGYessLdnw)"
         fillRule="evenodd"
         d="M5.549 10.855h11.105c.139 0 .27.055.367.154l1.757 1.768a.518.518 0 0 1-.367.884H7.305a.5.5 0 0 1-.367-.154l-1.757-1.769a.518.518 0 0 1 .367-.883M5.182 8.51l1.757-1.769a.52.52 0 0 1 .367-.153h11.102c.46 0 .694.557.367.883L17.021 9.24a.52.52 0 0 1-.367.153H5.549a.518.518 0 0 1-.367-.883m13.593 7.496-1.756 1.768a.52.52 0 0 1-.368.154H5.55a.518.518 0 0 1-.367-.883l1.757-1.77a.52.52 0 0 1 .367-.153h11.102c.46 0 .694.557.367.884"
         clipRule="evenodd"
       />
       <defs>
         <linearGradient
-          id={gradientId}
+          id="SVGYessLdnw"
           x1={5.821}
           x2={18.136}
           y1={18.416}

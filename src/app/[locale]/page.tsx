@@ -4,11 +4,14 @@ import InvoiceComponent from "@/components/invoice/template";
 import { LanguageToggle } from "@/components/language-toggle";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
+import enUS from "@/i18n/locales/en-US";
 import { getMockInvoice } from "@/lib/mock";
+import { useTranslations } from "next-intl";
 import { useCallback } from "react";
 import { useQuery } from "react-query";
 
 const Page = () => {
+  const t = useTranslations("invoice");
   const { data: invoice, isLoading } = useQuery({
     queryKey: ["invoice"],
     queryFn: () => getMockInvoice(),
@@ -53,7 +56,16 @@ const Page = () => {
         </div>
       </div>
       <main className="border w-fit mx-auto mb-6">
-        <InvoiceComponent invoice={invoice} />
+        <InvoiceComponent
+          invoice={invoice}
+          translations={Object.keys(enUS.invoice).reduce(
+            (acc, key) => {
+              acc[key] = t(key);
+              return acc;
+            },
+            {} as Record<string, string>,
+          )}
+        />
       </main>
     </div>
   );

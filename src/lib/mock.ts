@@ -18,8 +18,6 @@ import { Decimal } from "decimal.js";
 import _ from "lodash";
 
 export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
-  seed("invoice-seed");
-
   const issuedDate = randRecentDate();
   const dueDate = new Date(
     issuedDate.getTime() +
