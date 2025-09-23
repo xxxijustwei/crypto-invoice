@@ -122,8 +122,27 @@ const renderPDF = async (browser: any, html: string) => {
   const page = await browser.newPage();
 
   try {
+    // Inject font and styles before setting content
+    const htmlWithFont = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700&display=swap');
+          body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          }
+        </style>
+      </head>
+      <body>
+        ${html}
+      </body>
+      </html>
+    `;
+
     await Promise.all([
-      page.setContent(html, {
+      page.setContent(htmlWithFont, {
         waitUntil: ["networkidle0", "load", "domcontentloaded"],
         timeout: 30000,
       }),
@@ -131,6 +150,9 @@ const renderPDF = async (browser: any, html: string) => {
         url: TAILWINDCSS_JS_CDN,
       }),
     ]);
+
+    // Wait for fonts to load
+    await page.evaluateHandle("document.fonts.ready");
 
     const buffer = await page.pdf({
       format: "A4",

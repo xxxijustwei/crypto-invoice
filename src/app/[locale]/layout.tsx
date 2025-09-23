@@ -17,7 +17,7 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="font-sans">
       <body>
         <NextIntlClientProvider>
           <Client>{children}</Client>
