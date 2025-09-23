@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { Client } from "./client";
 import "@/styles/globals.css";
 import { NextIntlClientProvider } from "next-intl";
-import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,14 +19,9 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
-        </ThemeProvider>
+        <NextIntlClientProvider>
+          <Client>{children}</Client>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

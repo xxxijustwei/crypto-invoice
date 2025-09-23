@@ -1,11 +1,21 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-const queryClient = new QueryClient();
-
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+export const Client = ({ children }: { children: React.ReactNode }) => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+          },
+        },
+      }),
+  );
   return (
     <ThemeProvider
       attribute="class"

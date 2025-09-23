@@ -1,22 +1,25 @@
 import type { Invoice } from "@/components/invoice/types";
-import { NetworkMap, Networks, Tokens } from "@/types/network";
+import { NetworkMap, Networks } from "@/types/network";
 import {
   rand,
   randAddress,
   randBetweenDate,
   randBic,
-  randCompanyName,
   randEmail,
   randEthereumAddress,
+  randFullName,
   randNumber,
   randProductName,
   randRecentDate,
   randUuid,
+  seed,
 } from "@ngneat/falso";
 import { Decimal } from "decimal.js";
 import _ from "lodash";
 
 export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
+  seed("invoice-seed");
+
   const issuedDate = randRecentDate();
   const dueDate = new Date(
     issuedDate.getTime() +
@@ -103,7 +106,7 @@ export const getMockInvoice = (type: "Paid" | "Unpaid" = "Unpaid"): Invoice => {
 const mockAddress = () => {
   const address = randAddress();
   return {
-    company: randCompanyName(),
+    company: randFullName(),
     email: randEmail(),
     address: `${address.street}, ${address.city}, ${address.country}`,
   };
