@@ -1,7 +1,7 @@
 "use client";
 
 import InvoiceComponent from "@/components/invoice/template";
-import { Button } from "@/components/wed/button";
+import { Button } from "@/components/ui/button";
 import { getMockInvoice } from "@/lib/mock";
 import { useCallback } from "react";
 import { useQuery } from "react-query";

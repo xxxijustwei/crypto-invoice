@@ -1,6 +1,5 @@
-import { Label } from "@/components/ui/label";
-import { FieldInput } from "@/components/wed/field-input";
-import { FieldTextarea } from "@/components/wed/field-textarea";
+import { FieldInput } from "@/components/ui/field-input";
+import { Textarea, TextareaContainer } from "@/components/ui/textarea";
 import { LogoUpload } from "./logo-upload";
 
 const Page = () => {
@@ -27,13 +26,16 @@ const Page = () => {
                 variant="bordered"
                 className="shadow-none rounded-lg bg-white"
               />
-              <FieldTextarea
-                id="pay2Address"
-                label="Address"
+              <TextareaContainer
                 variant="bordered"
-                disableResize
                 className="shadow-none rounded-lg bg-white"
-              />
+              >
+                <Textarea
+                  id="pay2Address"
+                  placeholder="Address"
+                  disableResize
+                />
+              </TextareaContainer>
             </div>
           </div>
           <div className="flex flex-col gap-4 flex-1">
@@ -51,13 +53,16 @@ const Page = () => {
                 variant="bordered"
                 className="shadow-none rounded-lg"
               />
-              <FieldTextarea
-                id="invoiced2Address"
-                label="Address"
+              <TextareaContainer
                 variant="bordered"
-                disableResize
-                className="shadow-none rounded-lg"
-              />
+                className="shadow-none rounded-lg bg-white"
+              >
+                <Textarea
+                  id="invoiced2Address"
+                  placeholder="Address"
+                  disableResize
+                />
+              </TextareaContainer>
             </div>
           </div>
         </div>

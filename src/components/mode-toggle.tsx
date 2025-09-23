@@ -3,7 +3,7 @@
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
-import { Button } from "./wed/button";
+import { Button } from "./ui/button";
 
 export const ModeToggle = () => {
   const { setTheme, resolvedTheme } = useTheme();

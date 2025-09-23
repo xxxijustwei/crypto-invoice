@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/wed/button";
+import { Button } from "@/components/ui/button";
 import {
   type FileWithPreview,
   formatBytes,

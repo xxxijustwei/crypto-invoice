@@ -7,7 +7,7 @@ import * as React from "react";
 
 export const containerVariants = cva(
   cn(
-    "flex w-full px-2.5 relative rounded-md shadow-sm",
+    "flex w-full px-2.5 relative rounded-lg",
     "text-base cursor-text",
     "data-[is-invalid=true]:border-destructive",
     "data-[disabled=true]:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:hover:border-input",
@@ -25,7 +25,7 @@ export const containerVariants = cva(
           "data-[disabled=true]:hover:bg-muted data-[disabled=true]:hover:border-muted",
         ),
         bordered: "border-2 border-input",
-        underline: "border-b-2 border-input rounded-none shadow-none",
+        underline: "border-b-2 border-input rounded-none",
       },
       size: {
         sm: "h-12 py-1.5",
@@ -138,18 +138,9 @@ const FieldInput = React.forwardRef<HTMLInputElement, FieldInputProps>(
       defaultValue || "",
     );
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const setRefs = React.useCallback(
-      (element: HTMLInputElement | null) => {
-        inputRef.current = element;
-        if (ref) {
-          if (typeof ref === "function") {
-            ref(element);
-          } else {
-            ref.current = element;
-          }
-        }
-      },
-      [ref],
+    React.useImperativeHandle<HTMLInputElement | null, HTMLInputElement | null>(
+      ref,
+      () => inputRef.current,
     );
 
     const isControlled = value !== undefined;
@@ -209,7 +200,7 @@ const FieldInput = React.forwardRef<HTMLInputElement, FieldInputProps>(
                 ? "text"
                 : type
             }
-            ref={setRefs}
+            ref={inputRef}
             className={cn(inputVariants({ size }), inputClassName)}
             disabled={disabled}
             placeholder={placeholder}
@@ -218,11 +209,9 @@ const FieldInput = React.forwardRef<HTMLInputElement, FieldInputProps>(
             onChange={handleChange}
           />
           {endContentRender()}
-          {label && (
-            <label htmlFor={props.id} className={cn(labelVariants({ size }))}>
-              {label}
-            </label>
-          )}
+          <label htmlFor={props.id} className={cn(labelVariants({ size }))}>
+            {label}
+          </label>
         </div>
       </div>
     );
