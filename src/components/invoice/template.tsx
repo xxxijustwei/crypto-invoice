@@ -30,83 +30,79 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
   } = invoice;
 
   return (
-    <div className="flex flex-col gap-6 max-w-3xl mx-auto p-6 sm:p-10 bg-white">
+    <div className="flex flex-col gap-6 max-w-3xl mx-auto p-6 sm:p-10 bg-white dark:bg-neutral-950">
       <div className="flex justify-between items-start mb-6">
-        <div className="flex flex-col gap-2 text-primary">
+        <div className="flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-light">Invoice #{num}</h1>
             {status && (
-              <span className="px-3 py-1 bg-red-100 text-red-700 text-sm rounded">
+              <span className="px-3 py-1 bg-gray-100 dark:bg-neutral-900 text-gray-900 dark:text-gray-200 text-sm rounded-lg">
                 {t(status.toLowerCase())}
               </span>
             )}
           </div>
           <div className="flex flex-col gap-1">
             <div className="grid grid-cols-5 gap-x-2">
-              <span className="col-span-2 font-extralight text-secondary-foreground">
+              <span className="col-span-2 font-extralight text-gray-600 dark:text-gray-400">
                 {t("issued_date")}:
               </span>
               <span className="col-span-3">
                 {issuedAt ? (
                   dayjs(issuedAt).format("MMMM D, YYYY")
                 ) : (
-                  <Skeleton className="h-6 bg-primary/10" />
+                  <Skeleton className="h-6" />
                 )}
               </span>
             </div>
             <div className="grid grid-cols-5 gap-x-2">
-              <span className="col-span-2 font-extralight text-secondary-foreground">
+              <span className="col-span-2 font-extralight text-gray-600 dark:text-gray-400">
                 {t("due_date")}:
               </span>
               <span className="col-span-3">
                 {dueAt ? (
                   dayjs(dueAt).format("MMMM D, YYYY")
                 ) : (
-                  <Skeleton className="h-6 bg-primary/10" />
+                  <Skeleton className="h-6" />
                 )}
               </span>
             </div>
           </div>
         </div>
-        <div className="p-4 border border-gray-300 rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+        <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
           <AnvilIcon size={64} />
         </div>
       </div>
 
-      <div className="h-px bg-gray-200" />
+      <div className="h-px bg-gray-200 dark:bg-gray-700" />
 
       <div className="grid grid-cols-2 gap-4 sm:gap-8">
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">👤 {t("pay_to")}:</h2>
-          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm">
-            <div className="text-lg font-medium">
-              {payTo?.company ?? (
-                <Skeleton className="w-[46%] min-w-24 h-7 bg-primary/10" />
-              )}
+          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-lg bg-slate-100 dark:bg-neutral-900 text-sm">
+            <div className="text-lg font-medium text-gray-900 dark:text-gray-200">
+              {payTo?.company ?? <Skeleton className="w-[46%] min-w-24 h-7" />}
             </div>
-            <div className="text-gray-500">
-              {payTo?.email ?? <Skeleton className="h-5 bg-primary/10" />}
+            <div className="text-gray-600 dark:text-gray-400">
+              {payTo?.email ?? <Skeleton className="h-5" />}
             </div>
-            <div className="text-gray-500">
-              {payTo?.address ?? <Skeleton className="h-5 bg-primary/10" />}
+            <div className="text-gray-600 dark:text-gray-400">
+              {payTo?.address ?? <Skeleton className="h-5" />}
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">👤 {t("invoiced_to")}:</h2>
-          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-md bg-slate-100 text-sm">
-            <div className="text-lg font-medium text-primary">
+          <div className="h-full flex flex-col gap-1 px-6 py-4 rounded-lg bg-slate-100 dark:bg-neutral-900 text-sm">
+            <div className="text-lg font-medium text-gray-900 dark:text-gray-200">
               {invoicedTo?.company ?? (
-                <Skeleton className="w-[46%] min-w-24 h-7 bg-primary/10" />
+                <Skeleton className="w-[46%] min-w-24 h-7" />
               )}
             </div>
-            <div className="text-gray-500">
-              {invoicedTo?.email ?? <Skeleton className="h-5 bg-primary/10" />}
+            <div className="text-gray-600 dark:text-gray-400">
+              {invoicedTo?.email ?? <Skeleton className="h-5" />}
             </div>
-            <div className="text-gray-500">
-              {invoicedTo?.address ?? (
-                <Skeleton className="h-5 bg-primary/10" />
-              )}
+            <div className="text-gray-600 dark:text-gray-400">
+              {invoicedTo?.address ?? <Skeleton className="h-5" />}
             </div>
           </div>
         </div>
@@ -115,9 +111,9 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
       {status === "Paid" && transaction ? (
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-medium px-2">🧾 {t("transaction")}:</h2>
-          <div className="border border-neutral-100 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
+          <div className="border border-gray-200 dark:border-gray-700 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2 bg-slate-100 rounded-lg px-4 py-3">
+              <div className="flex flex-col gap-2 bg-gray-100 dark:bg-neutral-900 rounded-lg px-4 py-3">
                 <div className="flex flex-col gap-0.5">
                   <p className="text-sm font-light">{t("transaction_hash")}:</p>
                   <p className="break-all">{transaction.txHash}</p>
@@ -157,14 +153,14 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
           <h2 className="text-lg font-medium px-2">
             💰 {t("payment_method")}:
           </h2>
-          <div className="border border-neutral-100 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
+          <div className="border border-gray-200 dark:border-gray-700 shadow-[0_0_10px_rgba(0,0,0,0.05)] rounded-xl p-4">
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2 bg-slate-100 rounded-lg px-4 py-3">
+              <div className="flex flex-col gap-2 bg-slate-100 dark:bg-neutral-900 rounded-lg px-4 py-3">
                 <div className="flex flex-col gap-0.5">
                   <p className="text-sm font-light">{t("wallet_address")}:</p>
                   <p className="break-all">
                     {paymentMethod?.walletAddress ?? (
-                      <Skeleton className="w-72 h-6 bg-primary/10" />
+                      <Skeleton className="w-72 h-6" />
                     )}
                   </p>
                 </div>
@@ -180,7 +176,7 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
                         <NetworkBadge key={network} networkName={network} />
                       ))
                     ) : (
-                      <Skeleton className="w-32 h-6 bg-primary/10" />
+                      <Skeleton className="w-32 h-6" />
                     )}
                   </div>
                 </div>
@@ -194,7 +190,7 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
                         <TokenBadge key={token} tokenName={token} />
                       ))
                     ) : (
-                      <Skeleton className="w-32 h-6 bg-primary/10" />
+                      <Skeleton className="w-32 h-6" />
                     )}
                   </div>
                 </div>
@@ -204,7 +200,7 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
         </div>
       )}
 
-      <div className="h-px bg-gray-200" />
+      <div className="h-px bg-gray-200 dark:bg-gray-700" />
 
       <div className="flex flex-col gap-3 mb-4">
         <div className="overflow-x-auto">
@@ -216,7 +212,7 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
               <col className="w-[18%]" />
             </colgroup>
             <thead>
-              <tr className="bg-slate-100 text-primary font-medium text-sm">
+              <tr className="bg-gray-100 dark:bg-neutral-900 text-gray-900 dark:text-zinc-200 font-medium text-sm">
                 <th className="p-4 text-left rounded-tl-md rounded-bl-md">
                   {t("description")}
                 </th>
@@ -231,16 +227,18 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
               {items?.map((item, index) => (
                 <tr
                   key={index}
-                  className="border-b border-gray-100 last:border-b-0"
+                  className="border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                 >
-                  <td className="px-4 py-6">{item.name}</td>
-                  <td className="px-4 py-6 text-right text-gray-500">
+                  <td className="px-4 py-6 text-gray-900 dark:text-gray-200">
+                    {item.name}
+                  </td>
+                  <td className="px-4 py-6 text-right text-gray-900 dark:text-gray-300">
                     ${new Decimal(item.amount ?? 0).toFixed(2)}
                   </td>
-                  <td className="px-4 py-6 text-right text-gray-500">
+                  <td className="px-4 py-6 text-right text-gray-900 dark:text-gray-300">
                     {item.qty ?? 0}
                   </td>
-                  <td className="px-4 py-6 text-right text-gray-800">
+                  <td className="px-4 py-6 text-right text-gray-900 dark:text-gray-300">
                     $
                     {new Decimal(item.amount ?? 0)
                       .mul(item.qty ?? 0)
@@ -253,13 +251,17 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
         </div>
 
         {promotionalCode && (
-          <div className="p-3 bg-gray-50 rounded-lg">
+          <div className="p-3 bg-gray-100 dark:bg-neutral-900 rounded-lg">
             <div className="flex justify-between items-center">
               <div className="flex gap-1">
-                <p>🎁 {t("promotional_code")}:</p>
-                <p className="text-gray-500">{promotionalCode.code}</p>
+                <p className="text-gray-900 dark:text-gray-200">
+                  🎁 {t("promotional_code")}:
+                </p>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {promotionalCode.code}
+                </p>
               </div>
-              <p className="font-medium text-right text-gray-600">
+              <p className="font-medium text-right text-gray-600 dark:text-gray-400">
                 ${new Decimal(promotionalCode.amount).toFixed(2)} USD
               </p>
             </div>
@@ -270,21 +272,27 @@ const InvoiceComponent = ({ invoice, translations }: InvoiceComponentProps) => {
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3 text-left px-4">
               <div className="grid grid-cols-10 gap-x-2">
-                <p className="col-span-6">{t("subtotal")}</p>
-                <p className="col-span-4 text-right text-gray-500">
+                <p className="col-span-6 text-gray-900 dark:text-gray-300">
+                  {t("subtotal")}
+                </p>
+                <p className="col-span-4 text-right text-gray-800 dark:text-gray-200">
                   ${new Decimal(subtotal ?? 0).toFixed(2)} USD
                 </p>
               </div>
               <div className="grid grid-cols-10 gap-x-2">
-                <p className="col-span-6">{t("discount")}</p>
-                <p className="col-span-4 text-right text-gray-500">
+                <p className="col-span-6 text-gray-900 dark:text-gray-300">
+                  {t("discount")}
+                </p>
+                <p className="col-span-4 text-right text-gray-800 dark:text-gray-200">
                   ${new Decimal(discount ?? 0).toFixed(2)} USD
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-10 gap-x-2 px-4 py-3 bg-slate-100 rounded-md font-medium">
-              <p className="col-span-6">{t("total")}</p>
-              <p className="col-span-4 text-right">
+            <div className="grid grid-cols-10 gap-x-2 px-4 py-3 bg-gray-100 dark:bg-neutral-900 rounded-md font-medium">
+              <p className="col-span-6 text-gray-900 dark:text-gray-300">
+                {t("total")}
+              </p>
+              <p className="col-span-4 text-right text-gray-800 dark:text-gray-200">
                 ${new Decimal(total ?? 0).toFixed(2)} USD
               </p>
             </div>
